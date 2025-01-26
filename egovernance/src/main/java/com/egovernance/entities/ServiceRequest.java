@@ -27,7 +27,7 @@ public class ServiceRequest {
 	private String requestId;
 	
 	/*--- using @Column annotation to set the column related properties ---*/
-	@Column(name="status",length=10,nullable=false)
+	@Column(name="status",length=25,nullable=false)
 	private String status;
 	
 	/*--- using @ManyToOne indicates that each tax_record is associated with one citizen ---*/

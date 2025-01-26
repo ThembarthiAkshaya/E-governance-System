@@ -1,7 +1,10 @@
 package com.egovernance.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 /*---- using @Entity to declare java class as entity ----*/
@@ -40,7 +43,7 @@ public class Employee {
 	private Department department;
 
 	@ManyToMany(mappedBy = "employee")
-	List<Approval> approval=new ArrayList<Approval>();
+    Set<Approval> approvals = new HashSet<>();
 
 	/*---- One government employee can have many appointments ----*/
 	@OneToMany(mappedBy = "employee")
@@ -65,6 +68,14 @@ public class Employee {
 	}
 
 	//getter and setter methods
+
+	
+	
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", role=" + role + ", salary="
+				+ salary + ", password=" + password + "]";
+	}
 
 	public String getEmployeeId() {
 		return employeeId;
@@ -113,27 +124,21 @@ public class Employee {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
-	
-	public List<Appointment> getAppointment() {
+
+	public Set<Approval> getStudents() {
+		return approvals;
+	}
+
+	public void setStudents(Set<Approval> approvals) {
+		this.approvals = approvals;
+	}
+
+	public List<Appointment> getAppointments() {
 		return appointments;
 	}
 
-	public void setAppointment(List<Appointment> appointments) {
-		this.appointments= appointments;
-	}
-	
-	public List<Approval> getApproval() {
-		return approval;
-	}
-
-	public void setApproval(List<Approval> approval) {
-		this.approval = approval;
-	}
-
-	@Override
-	public String toString() {
-		return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", role=" + role + ", salary="
-				+ salary + ", password=" + password + "]";
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 
 }

@@ -2,9 +2,8 @@ package com.egovernance.main;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+
 import org.hibernate.Session;
 //import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,57 +12,55 @@ import com.egovernance.entities.*;
 
 public class EgovernanceSystem {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		Session session=HibernateUtils.getsFactory().openSession();
+        Session session = HibernateUtils.getsFactory().openSession();
 
-		//creating transaction reference to modify the data in the database
-		Transaction transaction=session.beginTransaction();
+        // Creating transaction reference to modify the data in the database
+        Transaction transaction = session.beginTransaction();
 
-		try {
-			// Take input from the user
-			Scanner scanner = new Scanner(System.in);
+        try {
+            // Take input from the user
+            Scanner scanner = new Scanner(System.in);
 
-			System.out.println("Enter report id: ");
-			String serviceId = scanner.nextLine();
+            System.out.println("Enter application id: ");
+            String applicationId = scanner.nextLine();
 
-			System.out.println("Enter report type:");
-			String reportType= scanner.nextLine();
+            System.out.println("Enter application date(yyyy-MM-dd): ");
+        	String date = scanner.nextLine();
+        	LocalDate applicationDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-			System.out.println("Enter reported date(yyyy-MM-dd): ");
-			String date = scanner.nextLine();
-			LocalDate reportDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            System.out.println("Enter application status:");
+            String status = scanner.nextLine();
+            
+            System.out.println("Enter citizen id:");
+        	String citizenId=scanner.nextLine();
 
-			System.out.println("Enter department id:");
-            String departmentId = scanner.nextLine();
+        	// Retrieve the existing Citizen from the database using the citizenId
+        	Citizen existingCitizen = session.get(Citizen.class, citizenId);
 
-            // Retrieve the existing Department from the database using the departmentId
-            Department existingDepartment = session.get(Department.class, departmentId);
-
-            if (existingDepartment == null) {
-                System.out.println("Department with ID " + departmentId + " does not exist!");
-                return;
-            }
-
-            // Create a new Report object and associate it with the department(s)
-            Report newReport = new Report(reportId, reportDate, reportType,existingDepartment);
-
-            // Save the report object to the database
-            session.save(newReport);
-
+        	if (existingCitizen == null) {
+        		System.out.println("Citizen with ID " + citizenId + " does not exist!");
+        		return;
+        	}
+            
+        	// Create a new department object
+        	Application newApplication = new Application (applicationId, applicationDate,status,existingCitizen);
+        	
+        	// Save the student object
+        	session.save(newApplication );
+        	
             // Commit the transaction
             transaction.commit();
 
-            System.out.println("Report details inserted successfully");
+            System.out.println("application has sent successfully.....");
 
-        }
-		finally 
-		{
+        } finally {
             session.close();
         }
-	}
+    
 }
-
+}
 /*--------------------citizen insertion----------------*/
 /*---{
 
@@ -279,7 +276,7 @@ finally
 		}
 --*/
 
-/*-----------------------Tax Report insertion-------------------------------*/
+/*-----------------------TaxRecord insertion-------------------------------*/
 /*
  Session session=HibernateUtils.getsFactory().openSession();
 
@@ -385,7 +382,103 @@ Session session=HibernateUtils.getsFactory().openSession();
 			session.close();
 		}
 */
+/*------------------------------------------------------------*/
+/*-----------Application-------------------------------------*/
+/*
+ {
 
+    public static void main(String[] args) {
+
+        Session session = HibernateUtils.getsFactory().openSession();
+
+        // Creating transaction reference to modify the data in the database
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            // Take input from the user
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Enter application id: ");
+            String applicationId = scanner.nextLine();
+
+            System.out.println("Enter application date(yyyy-MM-dd): ");
+        	String date = scanner.nextLine();
+        	LocalDate applicationDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            System.out.println("Enter application status:");
+            String status = scanner.nextLine();
+            
+            System.out.println("Enter citizen id:");
+        	String citizenId=scanner.nextLine();
+
+        	// Retrieve the existing Citizen from the database using the citizenId
+        	Citizen existingCitizen = session.get(Citizen.class, citizenId);
+
+        	if (existingCitizen == null) {
+        		System.out.println("Citizen with ID " + citizenId + " does not exist!");
+        		return;
+        	}
+            
+        	// Create a new department object
+        	Application newApplication = new Application (applicationId, applicationDate,status,existingCitizen);
+        	
+        	// Save the student object
+        	session.save(newApplication );
+        	
+            // Commit the transaction
+            transaction.commit();
+
+            System.out.println("application has sent successfully.....");
+
+        } finally {
+            session.close();
+        }
+    
+}
+ */
+/*-----------------------------------------------*/
+/*---------------Department ----------------------*/
+/*
+ {
+
+        Session session = HibernateUtils.getsFactory().openSession();
+
+        // Creating transaction reference to modify the data in the database
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            // Take input from the user
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Enter department id: ");
+            String departmentId = scanner.nextLine();
+
+            System.out.println("Enter department name:");
+            String departmentName = scanner.nextLine();
+            
+            // Report id as foreign key
+            System.out.println("department description:");
+            String description= scanner.nextLine();
+
+        	// Create a new department object
+        	Department newDepartment = new Department(departmentId,departmentName,description);
+        	
+        	// Save the student object
+        	session.save(newDepartment );
+        	
+            // Commit the transaction
+            transaction.commit();
+
+            System.out.println("details inserted successfully");
+
+        } finally {
+            session.close();
+        }
+    
+}
+ */
+
+/*---------------------------------------------------------*/
 /*----------------Report inserting--------------*/
 /*
 Session session=HibernateUtils.getsFactory().openSession();
@@ -435,3 +528,391 @@ finally
     session.close();
 }
 */
+
+/*--------------service insertion -----------------------*/
+/*
+ Session session=HibernateUtils.getsFactory().openSession();
+
+		//creating transaction reference to modify the data in the database
+		Transaction transaction=session.beginTransaction();
+
+		try {
+			// Take input from the user
+			Scanner scanner = new Scanner(System.in);
+
+			System.out.println("Enter service id: ");
+			String serviceId = scanner.nextLine();
+
+			System.out.println("Enter service name:");
+			String serviceName= scanner.nextLine();
+			
+			System.out.println("Enter service description:");
+			String description= scanner.nextLine();
+			
+			System.out.println("Enter department id:");
+            String departmentId = scanner.nextLine();
+            
+            // Retrieve the existing Department from the database using the departmentId
+            Department existingDepartment = session.get(Department.class, departmentId);
+
+            if (existingDepartment == null) {
+                System.out.println("Department with ID " + departmentId + " does not exist!");
+                return;
+            }
+
+            // Create a new Report object and associate it with the department(s)
+            Service newService = new Service(serviceId, serviceName, description,existingDepartment);
+
+            // Save the report object to the database
+            session.save(newService);
+
+            // Commit the transaction
+            transaction.commit();
+
+            System.out.println("Report details inserted successfully");
+
+        }
+		finally 
+		{
+            session.close();
+        }
+ */
+
+/*-----------------Employee insertion--------------------*/
+/*
+ * Session session=HibernateUtils.getsFactory().openSession();
+
+		//creating transaction reference to modify the data in the database
+		Transaction transaction=session.beginTransaction();
+
+		try {
+			// Take input from the user
+			Scanner scanner = new Scanner(System.in);
+
+			System.out.println("Enter employee id: ");
+			String employeeId = scanner.nextLine();
+
+			System.out.println("Enter employee name:");
+			String employeeName= scanner.nextLine();
+			
+			System.out.println("Enter employee role:");
+			String role= scanner.nextLine();
+
+			System.out.println("Enter employee password: ");
+			String password = scanner.nextLine();
+
+			System.out.println("Enter department id:");
+            String departmentId = scanner.nextLine();
+            
+            // Retrieve the existing Department from the database using the departmentId
+            Department existingDepartment = session.get(Department.class, departmentId);
+
+            if (existingDepartment == null) {
+                System.out.println("Department with ID " + departmentId + " does not exist!");
+                return;
+            }
+
+            System.out.println("Enter employee salary:");
+			int salary=scanner.nextInt();
+			
+            // Create a new Report object and associate it with the department(s)
+           Employee newEmployee = new Employee(employeeId, employeeName,role,salary,password,existingDepartment);
+
+            // Save the report object to the database
+            session.save(newEmployee);
+
+            // Commit the transaction
+            transaction.commit();
+
+            System.out.println("Employee details inserted successfully");
+
+        }
+		finally 
+		{
+            session.close();
+        }
+ */
+
+/*---------------------------------------------------------------------*/
+/*------------ServiceRequest insertion --------------------*/
+/*
+ 		Session session=HibernateUtils.getsFactory().openSession();
+
+		//creating transaction reference to modify the data in the database
+		Transaction transaction=session.beginTransaction();
+
+		try {
+			// Take input from the user
+			Scanner scanner = new Scanner(System.in);
+
+			System.out.println("Enter service request id: ");
+			String requestId = scanner.nextLine();
+		
+			System.out.println("Enter the status of the service request:");
+			String status=scanner.nextLine();
+		
+			//report id as foreign key
+			System.out.println("Enter citizen id:");
+            String citizenId = scanner.nextLine();
+            
+            // Retrieve the existing Department from the database using the departmentId
+          Citizen existingCitizen = session.get(Citizen.class, citizenId);
+
+            if (existingCitizen == null) {
+                System.out.println("Citizen with ID " +citizenId+ " does not exist!");
+                return;
+            }
+            
+          //service as foreign key
+			System.out.println("Enter service id:");
+            String serviceId = scanner.nextLine();
+            
+            // Retrieve the existing Department from the database using the departmentId
+           Service existingService = session.get(Service.class, serviceId);
+
+            if (existingService == null) {
+                System.out.println("Service with ID " +serviceId+ " does not exist!");
+                return;
+            }
+
+            // Create a new Report object and associate it with the department(s)
+           ServiceRequest newServiceRequest = new ServiceRequest(requestId, status,existingCitizen,existingService);
+
+            // Save the report object to the database
+            session.save(newServiceRequest);
+
+            // Commit the transaction
+            transaction.commit();
+
+            System.out.println("Service details inserted successfully");
+
+        }
+		finally 
+		{
+            session.close();
+        }
+ */
+/*----------------------------------------------------------------------------*/
+//Appointment insertion
+/*--
+ 		Session session=HibernateUtils.getsFactory().openSession();
+
+		//creating transaction reference to modify the data in the database
+		Transaction transaction=session.beginTransaction();
+
+		try {
+			// Take input from the user
+			Scanner scanner = new Scanner(System.in);
+
+			System.out.println("Enter appointment id: ");
+			String appointmentId = scanner.nextLine();
+
+			System.out.println("Enter the status of the appointment:");
+			String status=scanner.nextLine();
+
+			System.out.println("Enter appointment date(yyyy-MM-dd): ");
+			String date = scanner.nextLine();
+			LocalDate appointmentDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+			//report id as foreign key
+			System.out.println("Enter citizen id:");
+			String citizenId = scanner.nextLine();
+
+			// Retrieve the existing Citizen from the database using the departmentId
+			Citizen existingCitizen = session.get(Citizen.class, citizenId);
+
+			if (existingCitizen == null) {
+				System.out.println("Citizen with ID " +citizenId+ " does not exist!");
+				return;
+			}
+
+			//service as foreign key
+			System.out.println("Enter department id:");
+			String departmentId = scanner.nextLine();
+
+			// Retrieve the existing Department from the database using the departmentId
+			Department existingDepartment = session.get(Department.class, departmentId);
+
+			if ( existingDepartment == null) {
+				System.out.println("Service with ID " +departmentId+ " does not exist!");
+				return;
+			}
+
+			//report id as foreign key
+			System.out.println("Enter citizen id:");
+			String employeeId = scanner.nextLine();
+
+			// Retrieve the existing Citizen from the database using the departmentId
+			Employee existingEmployee = session.get(Employee.class, employeeId);
+
+			if (existingEmployee == null) {
+				System.out.println("Citizen with ID " +citizenId+ " does not exist!");
+				return;
+			}
+			
+			// Create a new Report object and associate it with the department(s)
+			Appointment newAppointment = new Appointment(appointmentId, status,appointmentDate,existingCitizen,existingDepartment,existingEmployee);
+
+			// Save the report object to the database
+			session.save(newAppointment);
+
+			// Commit the transaction
+			transaction.commit();
+
+			System.out.println("Appointment details inserted successfully");
+
+		}
+		finally 
+		{
+			session.close();
+		}
+ */
+/*-----------------------------------------------------------------------*/
+/*-------------------Approval insertion ----------------------------------*/
+/*
+  {
+
+        Session session = HibernateUtils.getsFactory().openSession();
+
+        // Creating transaction reference to modify the data in the database
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            // Take input from the user
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Enter Approval id: ");
+            String approvalId = scanner.nextLine();
+
+            System.out.println("Enter the status of the approval:");
+            String status = scanner.nextLine();
+
+            // Report id as foreign key
+            System.out.println("Enter request id:");
+            String requestId = scanner.nextLine();
+
+            // Retrieve the existing ServiceRequest from the database using the requestId
+            ServiceRequest existingRequest = session.get(ServiceRequest.class, requestId);
+
+            if (existingRequest == null) {
+                System.out.println("Request with ID " + requestId + " does not exist!");
+                return;
+            }
+
+            // Take input for the Employee (foreign key in the Approval entity)
+            System.out.println("Enter Employee id for the approval:");
+            String employeeId = scanner.nextLine();
+
+            // Retrieve the existing Employee from the database using the employeeId
+            Employee existingEmployee = session.get(Employee.class, employeeId);
+
+            if (existingEmployee == null) {
+                System.out.println("Employee with ID " + employeeId + " does not exist!");
+                return;
+            }
+
+            // Get the number of approvals for the employee
+            System.out.print("Enter number of approvals for the employee: ");
+            int approvalCount = Integer.parseInt(scanner.nextLine());
+
+            // Create a set to hold approvals
+            Set<Approval> approvals = new HashSet<>();
+
+            // Take input for approvals
+            for (int i = 1; i <= approvalCount; i++) {
+                System.out.print("Enter approval " + i + " id: ");
+                String approvalId1 = scanner.nextLine();
+
+                System.out.print("Enter approval " + i + " status: ");
+                String status1 = scanner.nextLine();
+
+                // Create a new Approval object
+                Approval approval = new Approval(approvalId1, status1, existingRequest, null); // Initially no employees linked
+
+                // Add the employee to the approval
+                Set<Employee> employees = new HashSet<>();
+                employees.add(existingEmployee);  // Associate this approval with the employee
+                approval.setEmployee(employees);
+
+                // Add approval to the set
+                approvals.add(approval);
+            }
+
+            // Save each approval object to the database
+            for (Approval approval : approvals) {
+                session.save(approval);
+            }
+
+            // Commit the transaction
+            transaction.commit();
+
+            System.out.println("Approval details inserted successfully");
+
+        } finally {
+            session.close();
+        }
+    }
+ */
+
+/*-----------------------------------------------------------------*/
+/*----------------Feedback insertion-------------------------*/
+/*--
+{
+Session session = HibernateUtils.getsFactory().openSession();
+
+        // Creating transaction reference to modify the data in the database
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            // Take input from the user
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Enter feedback id: ");
+            String feedbackId = scanner.nextLine();
+
+            System.out.println("Enter the comment:");
+            String comment = scanner.nextLine();
+            
+            // Report id as foreign key
+            System.out.println("Enter request id:");
+            String requestId = scanner.nextLine();
+
+            // Retrieve the existing ServiceRequest from the database using the requestId
+            ServiceRequest existingRequest = session.get(ServiceRequest.class, requestId);
+
+            if (existingRequest == null) {
+                System.out.println("Request with ID " + requestId + " does not exist!");
+                return;
+            }
+            
+            System.out.println("Enter citizen id:");
+        	String citizenId=scanner.nextLine();
+
+        	// Retrieve the existing Citizen from the database using the citizenId
+        	Citizen existingCitizen = session.get(Citizen.class, citizenId);
+
+        	if (existingCitizen == null) {
+        		System.out.println("Citizen with ID " + citizenId + " does not exist!");
+        		return;
+        	}
+
+        	 System.out.println("Enter the rating(1 to 5):");
+             int rating=scanner.nextInt();
+             
+        	// Create a new student object
+        	Feedback newFeedback = new Feedback(feedbackId,rating,comment,existingCitizen,existingRequest);
+
+        	// Save the student object
+        	session.save(newFeedback);
+        	
+            // Commit the transaction
+            transaction.commit();
+
+            System.out.println("Aww....your feedback has sent successfully!");
+
+        } finally {
+            session.close();
+        }
+    
+}
+--*/

@@ -1,7 +1,7 @@
 package com.egovernance.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.*;
 
 /*---- using @Entity to declare java class as entity ----*/
@@ -34,14 +34,14 @@ public class Approval {
 			joinColumns = @JoinColumn(name = "approvalId"),
 			inverseJoinColumns = @JoinColumn(name = "employeeId")// Foreign key in the join table referring to Department
 			)
-	List<Employee> employee=new ArrayList<Employee>();
-
+	private Set<Employee> employee = new HashSet<>();
+	
 	//default constructor
 	public Approval() {
 		super();
 	}
 
-	public Approval(String approvalId, String status, ServiceRequest serviceRequest, List<Employee> employee) {
+	public Approval(String approvalId, String status, ServiceRequest serviceRequest, Set<Employee> employee) {
 		super();
 		this.approvalId = approvalId;
 		this.status = status;
@@ -66,19 +66,19 @@ public class Approval {
 		this.status = status;
 	}
 
-	public ServiceRequest getServicerequest() {
+	public ServiceRequest getServiceRequest() {
 		return serviceRequest;
 	}
 
-	public void setServicerequest(ServiceRequest serviceRequest) {
+	public void setServiceRequest(ServiceRequest serviceRequest) {
 		this.serviceRequest = serviceRequest;
 	}
 
-	public List<Employee> getEmployee() {
+	public Set<Employee> getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(List<Employee> employee) {
+	public void setEmployee(Set<Employee> employee) {
 		this.employee = employee;
 	}
 
@@ -86,5 +86,4 @@ public class Approval {
 	public String toString() {
 		return "Approval [approvalId=" + approvalId + ", status=" + status + "]";
 	}
-
 }

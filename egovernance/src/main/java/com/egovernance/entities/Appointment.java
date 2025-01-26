@@ -1,5 +1,6 @@
 package com.egovernance.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ public class Appointment {
 	/*--- using @Column annotation to set column related properties ---*/
 	@Id
 	@Column(name="appointment_id",length=30)
-	private int appointmentId;
+	private String appointmentId;
 
 	/*--- using @Column annotation to set the column related properties ---*/
 	@Column(name="status",length=50)
@@ -24,7 +25,7 @@ public class Appointment {
 
 	/*--- using @Column annotation to set the column related properties ----*/
 	@Column(name="appointment_date")
-	private Date appointmentDate;
+	private LocalDate appointmentDate;
 
 	/*--- using @ManyToOne indicates that each department is associated with one citizen ---*/
 	@ManyToOne
@@ -47,7 +48,7 @@ public class Appointment {
 	}
 
 	//parameterized constructor
-	public Appointment(int appointmentId, String status, Date appointmentDate, Citizen citizen,Department department,
+	public Appointment(String appointmentId, String status, LocalDate appointmentDate, Citizen citizen,Department department,
 			Employee employee) {
 		super();
 		this.appointmentId = appointmentId;
@@ -58,11 +59,11 @@ public class Appointment {
 		this.employee = employee;
 	}
 
-	public int getAppointmentId() {
+	public String getAppointmentId() {
 		return appointmentId;
 	}
 
-	public void setAppointmentId(int appointmentId) {
+	public void setAppointmentId(String appointmentId) {
 		this.appointmentId = appointmentId;
 	}
 
@@ -74,11 +75,11 @@ public class Appointment {
 		this.status = status;
 	}
 
-	public Date getAppointmentDate() {
+	public LocalDate getAppointmentDate() {
 		return appointmentDate;
 	}
 
-	public void setAppointmentDate(Date appointmentDate) {
+	public void setAppointmentDate(LocalDate appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 
