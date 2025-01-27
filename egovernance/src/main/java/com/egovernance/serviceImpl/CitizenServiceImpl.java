@@ -15,14 +15,31 @@ public class CitizenServiceImpl implements CitizenService {
 
     @Override
     public void insertCitizen(Citizen citizen) {
-        // Delegate the insert operation to DAO
-        citizenDao.insertCitizen(citizen);
+        // Delegate the insert operation to DAO (no need to pass the Citizen object)
+        citizenDao.insertCitizenFromInput();
     }
     
     @Override
     public void updateCitizen(Citizen citizen) {
-        // Delegate the insert operation to DAO
-        citizenDao.updateCitizen(citizen);
+        // Delegate the update operation to DAO (no need to pass the Citizen object)
+        citizenDao.updateCitizenFromInput();
+    }
+    
+    @Override
+    public void deleteCitizen(Citizen citizen) {
+        // Delegate the delete operation to DAO (no need to pass the Citizen object)
+        citizenDao.deleteCitizenFromInput();
+    }
+    
+    @Override
+    public void getAllCitizen(Citizen citizen) {
+        // Delegate the delete operation to DAO (no need to pass the Citizen object)
+        citizenDao.getAllCitizen();
+    }
+    
+    @Override
+    public void getCitizenById(Citizen citizen) {
+        // Delegate the delete operation to DAO (no need to pass the Citizen object)
+        citizenDao.getCitizenById();
     }
 }
-

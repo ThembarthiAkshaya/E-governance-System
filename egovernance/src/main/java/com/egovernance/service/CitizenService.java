@@ -7,6 +7,9 @@ public interface CitizenService {
 	/*--- Method to register Student -----*/
 	void insertCitizen(Citizen citizen);
 	void updateCitizen(Citizen citizen);
+	void deleteCitizen(Citizen citizen);
+	void getAllCitizen(Citizen citizen);
+	void getCitizenById(Citizen citizen);
 	/*
     void updateCitizen(SessionFactory sf);
     void deleteCitizen(SessionFactory sf);

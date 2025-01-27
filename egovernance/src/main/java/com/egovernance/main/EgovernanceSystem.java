@@ -1,24 +1,16 @@
 package com.egovernance.main;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import com.egovernance.dao.CitizenDAO;
-import com.egovernance.entities.Citizen;
 import com.egovernance.service.CitizenService;
 import com.egovernance.serviceImpl.CitizenServiceImpl;
-import com.egovernance.utils.HibernateUtils;
 
 public class EgovernanceSystem {
 
     public static void main(String[] args) {
-    	
         // Initialize the DAO and pass it to the service
         CitizenDAO citizenDAO = new CitizenDAO();
-        
-        CitizenService citizenService = new CitizenServiceImpl(citizenDAO);  // Inject DAO into Service
+        CitizenService citizenService = new CitizenServiceImpl(citizenDAO); // Inject DAO into Service
 
         Scanner sc = new Scanner(System.in);
 
@@ -39,135 +31,47 @@ public class EgovernanceSystem {
         sc.close();
     }
 
-    private static void handleCitizenOptions(CitizenService citizenService, Scanner sc)
-    {
-    	Session session=HibernateUtils.getsFactory().openSession();
-    	
-        Transaction transaction = session.beginTransaction();
-        
+    private static void handleCitizenOptions(CitizenService citizenService, Scanner sc) {
         System.out.println("Select an option:");
         System.out.println("1. Register Citizen");
-        System.out.println("2.Update Citizen");
+        System.out.println("2. Update Citizen");
+        System.out.println("3. Delete Citizen");
+        System.out.println("4. List of all the Citizen");
+        System.out.println("5.List of Citizen by id");
         int option = sc.nextInt();
-        sc.nextLine();  // Consume newline character after number input
+        sc.nextLine(); // Consume newline character after number input
+
+        CitizenDAO citizenDAO = new CitizenDAO();
 
         if (option == 1) {
-            // Collect citizen information from the user
-            // Take input from the user
-            System.out.println("Enter citizen id: ");
-            String citizenId = sc.nextLine();
-
-            System.out.println("Enter citizen name: ");
-            String citizenName = sc.nextLine();
-
-            System.out.println("Enter citizen address: ");
-            String address = sc.nextLine();
-
-            System.out.println("Enter citizen mobilenumber: ");
-            Long mobileNumber = sc.nextLong();
-
-            System.out.println("Enter citizen email: ");
-            String email = sc.nextLine();
-
-            System.out.println("Enter citizen dateOfBirth(yyyy-MM-dd): ");
-            String dobStr = sc.nextLine();
-            LocalDate dateOfBirth = LocalDate.parse(dobStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-            System.out.println("Enter citizen fathername: ");
-            String fatherName = sc.nextLine();
-
-            // Create a new Citizen object
-            Citizen newCitizen = new Citizen(citizenId, citizenName, address, mobileNumber, email, dateOfBirth, fatherName);
-
-            // Call the service to insert citizen into the database
-            citizenService.insertCitizen(newCitizen);  // Corrected to newCitizen
-        } 
-        else if(option==2)
+            // Call the DAO to insert a new citizen from user input
+            citizenDAO.insertCitizenFromInput(); // This method handles all citizen input and saving
+        } else if (option == 2)
         {
-        	System.out.println("Enter citizen id to update:");
-        	String citizenId=sc.nextLine();
-        	
-        	//checking the whether the citizen is exist or not
-        	// Retrieve the existing Citizen from the database using the citizenId
-        	Citizen existingCitizen = session.get(Citizen.class, citizenId);
-
-        	if (existingCitizen == null) {
-        	    System.out.println("Citizen with ID " + citizenId + " does not exist!");
-        	    return;
-        	}
-        	while (true) {
-                System.out.println("Choose option to update:\n1. Update Name\n2. Update Date of Birth\n3. Update Phone Number\n4. Update Email\n5. Update Address\n6.update Fathername \n7. Exit");
-                int oneOption = sc.nextInt();
-                sc.nextLine(); // consume newline
-
-                if (oneOption == 7) {
-                    System.out.println("Exiting update menu.");
-                    break;
-                }
-
-                switch (option) {
-                    case 1:
-                        System.out.print("Enter New Name: ");
-                        String newName = sc.nextLine();
-                        existingCitizen.setCitizenName(newName);
-                        System.out.println("citizen name updated successfully.");
-                        break;
-
-                    case 2:
-                        System.out.print("Enter New Date of Birth (yyyy-MM-dd): ");
-                        String dobStr = sc.nextLine();
-                        LocalDate dob = LocalDate.parse(dobStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                        existingCitizen.setDateOfBirth(dob);
-                        System.out.println("Date of Birth updated successfully.");
-                        break;
-
-                    case 3:
-                        System.out.print("Enter New Phone Number: ");
-                        Long newPhoneNumber = sc.nextLong();
-                        existingCitizen.setMobileNumber(newPhoneNumber);
-                        System.out.println("Phone number updated successfully.");
-                        break;
-
-                    case 4:
-                        System.out.print("Enter New Mail: ");
-                        String newMail = sc.nextLine();
-                        existingCitizen.setEmail(newMail);
-                        System.out.println("Email updated successfully.");
-                        break;
-
-                    case 5:
-                        System.out.print("Enter New Address: ");
-                        String newAddress = sc.nextLine();
-                        existingCitizen.setAddress(newAddress);
-                        System.out.println("Address updated successfully.");
-                        break;
-                        
-                    case 6:
-                        System.out.print("Enter New father Name: ");
-                        String newFatherName = sc.nextLine();
-                        existingCitizen.setCitizenName(newFatherName);
-                        System.out.println("father name updated successfully.");
-                        break;
-
-                    default:
-                        System.out.println("Invalid option. Please choose again.");
-                        continue;
-                }
-
-                // Save the updated citizen
-                session.saveOrUpdate(existingCitizen);
-                transaction.commit();
-                System.out.println("admin details updated successfully!");
-
-                // Start a new transaction for further updates if needed
-                transaction = session.beginTransaction();
-            }
-        }
+            // Call the DAO to update an existing citizen
+            citizenDAO.updateCitizenFromInput(); // This method handles updating the citizen's details
+        } 
+        else if (option == 3)
+        {
+            // Call the DAO to delete an existing citizen
+            citizenDAO.deleteCitizenFromInput(); // This method handles updating the citizen's details
+        } 
+        else if (option == 4)
+        {
+            // Call the DAO to delete an existing citizen
+            citizenDAO.getAllCitizen(); // This method handles updating the citizen's details
+        } 
+        else if (option == 5)
+        {
+            // Call the DAO to delete an existing citizen
+            citizenDAO.getCitizenById(); // This method handles updating the citizen's details
+        } 
         else {
             System.out.println("Invalid Option");
         }
     }
 }
+
 
 
 /*--------------------citizen insertion----------------*/

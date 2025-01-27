@@ -16,7 +16,6 @@ public class Notification {
 	/*---- using @Id annotation to declare member variable as primary key ----*/
 	/*--- using @Column annotation to set column related properties ---*/
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-increment behavior
 	@Column(name="notification_id",length=30)
 	private String notificationId;
 

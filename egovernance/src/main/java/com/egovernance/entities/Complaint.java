@@ -16,7 +16,6 @@ public class Complaint {
 	/*--- using @Id annotation to declare data member as primary key ---*/
 	/*--- using @Column annotation to set column related properties ---*/
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-increment behavior
 	@Column(name="Complaint_Id")
 	private String compaintId;
 

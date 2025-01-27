@@ -31,7 +31,7 @@ public class Citizen {
 	private String citizenName;
 
 	@Embedded
-	private String address;
+	private Address address;
 
 	/*--- using @Column annotation to set column related properties ---*/
 	@Column(name="contact_number",length=15)
@@ -81,7 +81,9 @@ public class Citizen {
 
 	}
 
-	public Citizen(String citizenId, String citizenName, String address, Long mobileNumber, String email,
+	
+
+	public Citizen(String citizenId, String citizenName, Address address, Long mobileNumber, String email,
 			LocalDate dateOfBirth, String fatherName) {
 		super();
 		this.citizenId = citizenId;
@@ -101,125 +103,187 @@ public class Citizen {
 		this.citizenId = citizenId;
 	}
 
+
+
 	public String getCitizenName() {
 		return citizenName;
 	}
+
+
 
 	public void setCitizenName(String citizenName) {
 		this.citizenName = citizenName;
 	}
 
-	public String getAddress() {
+
+
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+
+
+	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+
 
 	public Long getMobileNumber() {
 		return mobileNumber;
 	}
 
+
+
 	public void setMobileNumber(Long mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
+
+
 
 	public String getEmail() {
 		return email;
 	}
 
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
+
+
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+
+
 
 	public String getFatherName() {
 		return fatherName;
 	}
 
+
+
 	public void setFatherName(String fatherName) {
 		this.fatherName = fatherName;
 	}
+
+
 
 	public List<Payment> getPayment() {
 		return payment;
 	}
 
+
+
 	public void setPayment(List<Payment> payment) {
 		this.payment = payment;
 	}
+
+
 
 	public List<Complaint> getComplaint() {
 		return complaint;
 	}
 
+
+
 	public void setComplaint(List<Complaint> complaint) {
 		this.complaint = complaint;
 	}
+
+
 
 	public List<TaxRecord> getTaxrecord() {
 		return taxrecord;
 	}
 
+
+
 	public void setTaxrecord(List<TaxRecord> taxrecord) {
 		this.taxrecord = taxrecord;
 	}
+
+
 
 	public List<Document> getDocument() {
 		return document;
 	}
 
+
+
 	public void setDocument(List<Document> document) {
 		this.document = document;
 	}
+
+
 
 	public List<Notification> getNotification() {
 		return notification;
 	}
 
+
+
 	public void setNotification(List<Notification> notification) {
 		this.notification = notification;
 	}
+
+
 
 	public List<Application> getApplication() {
 		return application;
 	}
 
+
+
 	public void setApplication(List<Application> application) {
 		this.application = application;
 	}
+
+
 
 	public List<ServiceRequest> getServicerequest() {
 		return servicerequest;
 	}
 
+
+
 	public void setServicerequest(List<ServiceRequest> servicerequest) {
 		this.servicerequest = servicerequest;
 	}
+
+
 
 	public List<Appointment> getAppointment() {
 		return appointment;
 	}
 
+
+
 	public void setAppointment(List<Appointment> appointment) {
 		this.appointment = appointment;
 	}
+
+
 
 	public List<Feedback> getFeedback() {
 		return feedback;
 	}
 
+
+
 	public void setFeedback(List<Feedback> feedback) {
 		this.feedback = feedback;
 	}
+
+
 
 	@Override
 	public String toString() {

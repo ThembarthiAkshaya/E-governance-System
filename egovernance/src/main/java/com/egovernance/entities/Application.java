@@ -16,7 +16,6 @@ public class Application {
 	/*--- using @Id to set member variable as primary key ---*/
 	/*--- using @Column annotation to set column related properties ---*/
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-increment behavior
 	@Column(name="application_id",length=30)
 	private String applicationId;
 	
