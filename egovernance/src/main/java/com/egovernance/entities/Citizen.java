@@ -35,7 +35,7 @@ public class Citizen {
 
 	/*--- using @Column annotation to set column related properties ---*/
 	@Column(name="contact_number",length=15)
-	private String mobileNumber;
+	private Long mobileNumber;
 
 	/*--- using @Column annotation to set column related properties ---*/
 	@Column(name="email",length=100,unique=true)
@@ -81,7 +81,7 @@ public class Citizen {
 
 	}
 
-	public Citizen(String citizenId, String citizenName, String address, String mobileNumber, String email,
+	public Citizen(String citizenId, String citizenName, String address, Long mobileNumber, String email,
 			LocalDate dateOfBirth, String fatherName) {
 		super();
 		this.citizenId = citizenId;
@@ -117,11 +117,11 @@ public class Citizen {
 		this.address = address;
 	}
 
-	public String getMobileNumber() {
+	public Long getMobileNumber() {
 		return mobileNumber;
 	}
 
-	public void setMobileNumber(String mobileNumber) {
+	public void setMobileNumber(Long mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
 
