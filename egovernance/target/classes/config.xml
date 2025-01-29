@@ -9,21 +9,21 @@
 	<!--<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
 	<property name="hibernate.show_sql">true</property>
 	<property name="hibernate.hbm2ddl.auto">update</property>
-	<mapping class="com.egovernance.entities.Address"/>
-	<mapping class="com.egovernance.entities.Application"/>
-	<mapping class="com.egovernance.entities.Appointment"/>
-	<mapping class="com.egovernance.entities.Approval"/>
-	<mapping class="com.egovernance.entities.Citizen"/>
-	<mapping class="com.egovernance.entities.Complaint"/>
-	<mapping class="com.egovernance.entities.Department"/>
-	<mapping class="com.egovernance.entities.Document"/>
-	<mapping class="com.egovernance.entities.Employee"/>
-	<mapping class="com.egovernance.entities.Feedback"/>
-	<mapping class="com.egovernance.entities.Notification"/>
-	<mapping class="com.egovernance.entities.Payment"/>
-	<mapping class="com.egovernance.entities.Report"/>
-	<mapping class="com.egovernance.entities.Service"/>
-	<mapping class="com.egovernance.entities.ServiceRequest"/>
-	<mapping class="com.egovernance.entities.TaxRecord"/>
+	<mapping class="com.egovernancesystem.entities.Address"/>
+	<mapping class="com.egovernancesystem.entities.Application"/>
+	<mapping class="com.egovernancesystem.entities.Appointment"/>
+	<mapping class="com.egovernancesystem.entities.Approval"/>
+	<mapping class="com.egovernancesystem.entities.Citizen"/>
+	<mapping class="com.egovernancesystem.entities.Complaint"/>
+	<mapping class="com.egovernancesystem.entities.Department"/>
+	<mapping class="com.egovernancesystem.entities.Document"/>
+	<mapping class="com.egovernancesystem.entities.Employee"/>
+	<mapping class="com.egovernancesystem.entities.Feedback"/>
+	<mapping class="com.egovernancesystem.entities.Notification"/>
+	<mapping class="com.egovernancesystem.entities.Payment"/>
+	<mapping class="com.egovernancesystem.entities.Report"/>
+	<mapping class="com.egovernancesystem.entities.Service"/>
+	<mapping class="com.egovernancesystem.entities.ServiceRequest"/>
+	<mapping class="com.egovernancesystem.entities.TaxRecord"/>
 	</session-factory>
 </hibernate-configuration>
