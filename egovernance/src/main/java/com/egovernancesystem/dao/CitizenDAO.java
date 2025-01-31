@@ -33,29 +33,30 @@ public class CitizenDAO {
 		}
 		return row;
 	}
-	// Method to update citizen details in the database
 	public int updateCitizen(Citizen citizen)
 	{
-		int row = 0;
-		Session session = HibernateUtils.getsFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-		try {
-			session.update(citizen);  // Use update() 
-			transaction.commit();
-			row = 1;  // Indicating success
-			System.out.println("Citizen updated successfully!");
-		} 
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			row = 0;  // In case of failure
-		}
-		finally
-		{
-			session.close();  // Ensure session is closed
-		}
-		return row;
+	    int row = 0;
+	    Session session = HibernateUtils.getsFactory().openSession();
+	    Transaction transaction = session.beginTransaction();
+	    try {
+	        // Reattach the detached Citizen entity
+	        session.merge(citizen);  // This ensures the entity is reattached to the session
+	        transaction.commit();
+	        row = 1;  // Indicating success
+	        System.out.println("Citizen updated successfully!");
+	    } 
+	    catch (Exception e)
+	    {
+	        e.printStackTrace();
+	        row = 0;  // In case of failure
+	    }
+	    finally
+	    {
+	        session.close();  // Ensure session is closed
+	    }
+	    return row;
 	}
+
 	// Method to delete citizen by citizenId (String type)
 	public int deleteCitizen(String citizenId) 
 	{

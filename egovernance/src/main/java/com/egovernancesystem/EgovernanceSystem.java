@@ -1,36 +1,402 @@
 package com.egovernancesystem;
 
 import java.util.Scanner;
-
-import com.egovernancesystem.controller.CitizenController;
+import com.egovernancesystem.controller.*;
 
 public class EgovernanceSystem {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        CitizenController citizenController = new CitizenController();
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("---------------Welcome to e-governance system services---------------");
+		System.out.println("Select your role:");
+		System.out.println("1. Citizen 2. Administrator 3. Employee");
+		int role = sc.nextInt();
 
-        System.out.println("---------------Welcome to e-governance system services---------------");
-        System.out.println("Select your role:");
-        System.out.println("1. Citizen 2. Administrator 3. Employee");
-        int role = sc.nextInt();
+		try {
+			switch (role) {
+			case 1:
+				handleCitizenOperations(sc);
+				break;
+			case 2:
+				// Add Admin functionality if needed
+				break;
+			case 3:
+				// Add Employee functionality if needed
+				break;
+			default:
+				System.out.println("Sorry, You have chosen an Invalid option.");
+			}
+		} catch (Exception e) {
+			System.out.println("Error while handling the role selection: " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			sc.close();
+		}
+	}
 
-        switch (role) {
-            case 1:
-                // Handle Citizen role and invoke citizen operations
-                try {
-                    citizenController.citizenOperation();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                System.out.println("Sorry, You have chosen an Invalid option.");
-        }
+	public static void handleCitizenOperations(Scanner sc) {
+		boolean exit = false;
+		try {
+			while (!exit) {
+				System.out.println("\n--------------- Citizen Menu ---------------");
+				System.out.println("1. Citizen options");
+				System.out.println("2. Payment options");
+				System.out.println("3. Document options");
+				System.out.println("4. Notification options");
+				System.out.println("5. Complaint menu");
+				System.out.println("6. Application menu");
+				System.out.println("7. Tax record menu");
+				System.out.println("8. Feedback menu");
+				System.out.println("9. Service request menu");
+				System.out.println("10. Appointment menu");
+				System.out.println("0. Exit");
+				System.out.print("Enter your choice: ");
+				int choice = sc.nextInt();
+				sc.nextLine(); // Consume newline left by nextInt()
 
-        sc.close();
-    }
+				switch (choice) {
+				case 1:
+					citizenMenu(sc); 
+					break;
+				case 2:
+					paymentMenu(sc);
+					break;
+				case 3:
+					documentMenu(sc);
+					break;
+				case 4:
+					notificationMenu(sc);
+					break;
+				case 5:
+					complaintMenu(sc);
+					break;
+				case 6:
+					applicationMenu(sc);
+					break;
+				case 7:
+					// Handle tax record
+					break;
+				case 8:
+					feedbackMenu(sc);
+					break;
+				case 9:
+					// Handle service request
+					break;
+				case 10:
+					// Handle appointment
+					break;
+				case 0:
+					System.out.println("Exiting Citizen Menu...");
+					exit = true; // Set exit flag to true to exit from the loop
+					break;
+				default:
+					System.out.println("Invalid choice! Please select again.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public static void citizenMenu(Scanner sc) {
+		try {
+			// Infinite loop to keep showing the Citizen menu until "Exit" is selected
+			while (true) {
+				System.out.println("--------------- Citizen Actions ---------------");
+				System.out.println("1. View Profile");
+				System.out.println("2. Update Profile");
+				System.out.println("3. Delete Profile");
+				System.out.println("4. Register Citizen");
+				System.out.println("5. View all citizens");
+				System.out.println("0. Exit to main menu");
+				System.out.print("Choose one option from the above list: ");
+				int option = sc.nextInt();
+				sc.nextLine();  // Consume newline character left by nextInt()
+
+				CitizenController citizenController = new CitizenController(); // Correcting typo in variable name
+
+				switch (option) {
+				case 1:
+					citizenController.getCitizenById();
+					break;
+				case 2:
+					citizenController.updateCitizenFromInput();
+					break;
+				case 3:
+					citizenController.deleteCitizenFromInput();
+					break;
+				case 4:
+					citizenController.insertCitizenFromInput();
+					break;
+				case 5:
+					citizenController.getAllCitizen();  // Show all citizens
+					break;
+				case 0:
+					System.out.println("Exiting to main menu...");
+					return;  // Exit Citizen Menu and return to main menu
+				default:
+					System.out.println("Invalid option selected.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in Citizen menu: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	public static void paymentMenu(Scanner sc) {
+		try {
+			// Infinite loop to keep showing the Citizen menu until "Exit" is selected
+			while (true) {
+				System.out.println("--------------- Payment Actions ---------------");
+				System.out.println("1. Make Payment");
+				System.out.println("2. Check Payment Status");
+				System.out.println("3. View All Payments");
+				System.out.println("0. Exit to main menu");
+				System.out.print("Choose one option from the above list: ");
+				int option = sc.nextInt();
+				sc.nextLine();  // Consume newline character left by nextInt()
+
+				PaymentController paymentController = new PaymentController(); // Correcting typo in variable name
+
+				switch (option) {
+				case 1:
+					paymentController.insertPaymentFromInput();;
+					break;
+				case 2:
+					paymentController.getPaymentById();
+					break;
+				case 3:
+					paymentController.getAllPayments();
+					break;
+				case 0:
+					System.out.println("Exiting to main menu...");
+					return;  // Exit Citizen Menu and return to main menu
+				default:
+					System.out.println("Invalid option selected.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in Payement menu: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	public static void documentMenu(Scanner sc) {
+		try {
+			// Infinite loop to keep showing the Document menu until "Exit" is selected
+			while (true) {
+				System.out.println("--------------- Document Actions ---------------");
+				System.out.println("1. Upload Document");
+				System.out.println("2. Delete Document");
+				System.out.println("3. Update Document");
+				System.out.println("4. View All Documents");
+				System.out.println("5. Exit to main menu");
+				System.out.print("Choose one option from the above list: ");
+				int option = sc.nextInt();
+				sc.nextLine();  // Consume newline character left by nextInt()
+
+				DocumentController documentController = new DocumentController(); // Correcting typo in variable name
+
+				switch (option) {
+				case 1:
+					documentController.addDocumentFromInput();;
+					break;
+				case 2:
+					documentController.deleteDocumentFromInput();
+					break;
+				case 3:
+					documentController.updateDocumentFromInput();
+					break;
+				case 4:
+					documentController.getAllDocuments();
+					break;
+				case 0:
+					System.out.println("Exiting to main menu...");
+					return;  // Exit Citizen Menu and return to main menu
+				default:
+					System.out.println("Invalid option selected.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in Document menu: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	public static void notificationMenu(Scanner sc) {
+		try {
+			// Infinite loop to keep showing the Citizen menu until "Exit" is selected
+			while (true) {
+				System.out.println("--------------- Payment Actions ---------------");
+				System.out.println("1. View notification");
+				System.out.println("2. Delete notification");
+				System.out.println("0. Exit to main menu");
+				System.out.print("Choose one option from the above list: ");
+				int option = sc.nextInt();
+				sc.nextLine();  // Consume newline character left by nextInt()
+
+				NotificationController notificationController = new NotificationController(); // Correcting typo in variable name
+
+				switch (option) {
+				case 1:
+					notificationController.getNotificationById();;
+					break;
+				case 2:
+					notificationController.deleteNotificationFromInput();;
+					break;
+				case 0:
+					System.out.println("Exiting to main menu...");
+					return;  // Exit Citizen Menu and return to main menu
+				default:
+					System.out.println("Invalid option selected.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in Notification menu: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	public static void complaintMenu(Scanner sc) {
+		try {
+			// Infinite loop to keep showing the Citizen menu until "Exit" is selected
+			while (true) {
+				System.out.println("--------------- Complaint Actions ---------------");
+				System.out.println("1. Submit Complaint");
+				System.out.println("2. View Complaints");
+				System.out.println("3.View all compalints of a citizen");
+				System.out.println("0. Exit to main menu");
+				System.out.print("Choose one option from the above list: ");
+				int option = sc.nextInt();
+				sc.nextLine();  // Consume newline character left by nextInt()
+
+				ComplaintController complaintController = new ComplaintController(); // Correcting typo in variable name
+
+				switch (option) {
+				case 1:
+					complaintController.addComplaintFromInput();;
+					break;
+				case 2:
+					complaintController.getAllComplaints();
+					break;
+				case 3:
+					complaintController.getComplaintById();
+					break;
+				case 0:
+					System.out.println("Exiting to main menu...");
+					return;  // Exit Citizen Menu and return to main menu
+				default:
+					System.out.println("Invalid option selected.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in Complaint menu: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	public static void notificationMenu1(Scanner sc) {
+		try {
+			// Infinite loop to keep showing the Citizen menu until "Exit" is selected
+			while (true) {
+				System.out.println("--------------- Payment Actions ---------------");
+				System.out.println("1. View notification");
+				System.out.println("2. Delete notification");
+				System.out.println("0. Exit to main menu");
+				System.out.print("Choose one option from the above list: ");
+				int option = sc.nextInt();
+				sc.nextLine();  // Consume newline character left by nextInt()
+
+				NotificationController notificationController = new NotificationController(); // Correcting typo in variable name
+
+				switch (option) {
+				case 1:
+					notificationController.getNotificationById();;
+					break;
+				case 2:
+					notificationController.deleteNotificationFromInput();;
+					break;
+				case 0:
+					System.out.println("Exiting to main menu...");
+					return;  // Exit Citizen Menu and return to main menu
+				default:
+					System.out.println("Invalid option selected.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in Notification menu: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	public static void feedbackMenu(Scanner sc) {
+		try {
+			// Infinite loop to keep showing the Citizen menu until "Exit" is selected
+			while (true) {
+				System.out.println("--------------- Feedback Actions ---------------");
+				System.out.println("1. Submit feedback");
+				System.out.println("0. Exit to main menu");
+				System.out.print("Choose one option from the above list: ");
+				int option = sc.nextInt();
+				sc.nextLine();  // Consume newline character left by nextInt()
+
+				FeedbackController feedbackController = new FeedbackController(); // Correcting typo in variable name
+
+				switch (option) {
+				case 1:
+					feedbackController.addFeedbackFromInput();
+					break;
+				case 0:
+					System.out.println("Exiting to main menu...");
+					return;  // Exit Citizen Menu and return to main menu
+				default:
+					System.out.println("Invalid option selected.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in citizen menu: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	public static void applicationMenu(Scanner sc) {
+		try {
+			// Infinite loop to keep showing the Citizen menu until "Exit" is selected
+			while (true) {
+				System.out.println("--------------- Applicaiton Actions ---------------");
+				System.out.println("1. Make Application");
+				System.out.println("2. Check Application Status");
+				System.out.println("3. View All Applications");
+				System.out.println("0. Exit to main menu");
+				System.out.print("Choose one option from the above list: ");
+				int option = sc.nextInt();
+				sc.nextLine();  // Consume newline character left by nextInt()
+
+				ApplicationController applicationController = new ApplicationController(); // Correcting typo in variable name
+
+				switch (option) {
+				case 1:
+					applicationController.insertApplicationFromInput();;
+					break;
+				case 2:
+					applicationController.getApplicationById();
+					break;
+				case 3:
+					applicationController.getAllApplications();
+					break;
+				case 0:
+					System.out.println("Exiting to main menu...");
+					return;  // Exit Citizen Menu and return to main menu
+				default:
+					System.out.println("Invalid option selected.");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in Application menu: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 }
+
+
+
+
+
 
 
 
