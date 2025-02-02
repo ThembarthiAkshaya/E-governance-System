@@ -78,6 +78,21 @@ public class ReportDAO {
         }
         return result;
     }
+    
+ // Method to fetch a report by reportId 
+    public Report getReportById(String reportId) {
+        Report report = null;
+        Session session = HibernateUtils.getsFactory().openSession();
+        try {
+            // Fetch the report object by reportId
+            report = session.get(Report.class, reportId);  // reportId is of type String
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();  // Ensure session is closed
+        }
+        return report;  // Return null if not found
+    }
 
     /*---- Method to fetch all reports from the database -----*/
     public List<Report> getAllReports() {
@@ -97,20 +112,7 @@ public class ReportDAO {
 }
 
 /*
- // Method to fetch a report by reportId 
-    public Report getReportById(String reportId) {
-        Report report = null;
-        Session session = HibernateUtils.getsFactory().openSession();
-        try {
-            // Fetch the report object by reportId
-            report = session.get(Report.class, reportId);  // reportId is of type String
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();  // Ensure session is closed
-        }
-        return report;  // Return null if not found
-    }
+ 
 
     // Method to fetch reports by departmentId 
     public List<Report> getReportsByDepartmentId(String departmentId) {
