@@ -30,15 +30,17 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
+    public Report getReportById(String reportId) {
+        return reportDao.getReportById(reportId); // Call DAO to get report by reportId
+    }
+	
+	@Override
 	public List<Report> getAllReports() {
 		return reportDao.getAllReports(); // Call DAO to fetch all reports
 	}
 }
 /*
- @Override
-    public Report getReportById(String reportId) {
-        return reportDao.getReportById(reportId); // Call DAO to get report by reportId
-    }
+ 
     @Override
     public List<Report> getReportsByDepartmentId(String departmentId) {
         return reportDao.getReportsByDepartmentId(departmentId); // Call DAO to fetch reports by departmentId
