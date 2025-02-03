@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import com.egovernancesystem.entities.Citizen;
 import com.egovernancesystem.entities.Department;
 import com.egovernancesystem.entities.Service;
+import com.egovernancesystem.entities.ServiceRequest;
 import com.egovernancesystem.service.ServiceService;
 import com.egovernancesystem.serviceImpl.ServiceServiceImpl;
 import com.egovernancesystem.utils.HibernateUtils;
@@ -65,48 +66,68 @@ public class ServiceController {
 	}
 
 	/*------------ Method to update an existing service from user input ------------*/
-	public int updateService(Service service) {
-		int row = 0;
-		Session session = HibernateUtils.getsFactory().openSession();
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();  // Start the transaction
+	public void updateService()
+    {
+        Scanner sc = new Scanner(System.in);
+        Session session=HibernateUtils.getsFactory().openSession();
+        System.out.println("Enter service ID to update: ");
+        String serviceId = sc.nextLine();
 
-			// Fetch the existing service entity to update it
-			Service existingService = session.get(Service.class, service.getServiceId());
+        // Fetch existing service request from the database
+        Service existingService = serviceService.getServiceById(serviceId);
 
-			if (existingService != null)
-			{
-				// Update the fields of the existing service entity
-				existingService.setServiceName(service.getServiceName());
-				existingService.setDescription(service.getDescription());
-				existingService.setDepartment(service.getDepartment());
-				// Update the service in the session
-				session.update(existingService); 
-				// Commit the transaction to persist the changes
-				transaction.commit();  
-				row = 1;  // Success
-			} else {
-				row = 0;  // Service not found
-			}
-		}
-		catch (Exception e)
-		{
-			if (transaction != null)
-			{
-				transaction.rollback();  // Rollback in case of an error
-			}
-			e.printStackTrace();
-			row = 0;  // Failure
-		}
-		finally
-		{
-			session.close();  // Ensure session is closed
-		}
-		return row;  // Return result of the update operation
-	}
+        if (existingService == null) {
+            System.out.println("Request with ID " + serviceId + " not found!");
+            return;
+        }
 
+        System.out.println("Enter new name: ");
+        String newServiceName = sc.nextLine();
+        existingService.setServiceName(newServiceName );
+        
+        System.out.println("Enter new description: ");
+        String newServiceDescription = sc.nextLine();
+        existingService.setDescription(newServiceDescription);
 
+        System.out.println("Enter department ID (existing department ID): ");
+        String newDepartmentId = sc.nextLine();
+
+        // Fetch the Citizen entity from the database using the provided citizenId
+        Department department = session.get(Department.class, newDepartmentId);
+        if (department == null) {
+            System.out.println("Department with ID " +newDepartmentId + " not found.");
+            return;
+        }
+
+        // Set the fetched Department entity to the Service object
+        existingService.setDepartment(department);
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();  // Start the transaction
+
+            // Update the service  entity
+            session.update(existingService);  // This will update the Service in the session
+
+            // Commit the transaction to persist the changes
+            transaction.commit();
+            System.out.println("Service request updated successfully.");
+
+        } 
+        catch (Exception e)
+        {
+            if (transaction != null) {
+                transaction.rollback();  // Rollback in case of an error
+            }
+            e.printStackTrace();
+            System.out.println("Unable to update service request.");
+        }
+        finally 
+        {
+            session.close();  // Ensure session is closed
+        }
+    }
+	
 	/*------------ Method to delete a service ------------*/
 	public void deleteServiceFromInput() {
 		System.out.println("Enter service id to delete:");
