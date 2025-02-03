@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hibernate-configuration>
+<session-factory>
+ <property name="hibernate.connection.Driver_class">com.mysql.cj.jdbc.Driver</property>
+	<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/e_governance_db</property>
+	<property name="hibernate.connection.user">root</property>
+	<property name="hibernate.connection.password">Akshaya8313*</property>
+	<!--<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
+	<property name="hibernate.show_sql">true</property>
+	<property name="hibernate.hbm2ddl.auto">update</property>
+	<mapping class="com.egovernancesystem.entities.Address"/>
+	<mapping class="com.egovernancesystem.entities.Application"/>
+	<mapping class="com.egovernancesystem.entities.Appointment"/>
+	<mapping class="com.egovernancesystem.entities.Approval"/>
+	<mapping class="com.egovernancesystem.entities.Citizen"/>
+	<mapping class="com.egovernancesystem.entities.Complaint"/>
+	<mapping class="com.egovernancesystem.entities.Department"/>
+	<mapping class="com.egovernancesystem.entities.Document"/>
+	<mapping class="com.egovernancesystem.entities.Employee"/>
+	<mapping class="com.egovernancesystem.entities.Feedback"/>
+	<mapping class="com.egovernancesystem.entities.Notification"/>
+	<mapping class="com.egovernancesystem.entities.Payment"/>
+	<mapping class="com.egovernancesystem.entities.Report"/>
+	<mapping class="com.egovernancesystem.entities.Service"/>
+	<mapping class="com.egovernancesystem.entities.ServiceRequest"/>
+	<mapping class="com.egovernancesystem.entities.TaxRecord"/>
+	</session-factory>
+</hibernate-configuration>
