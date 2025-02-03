@@ -2,6 +2,8 @@ package com.egovernancesystem;
 
 import java.util.Scanner;
 import com.egovernancesystem.controller.*;
+import com.egovernancesystem.entities.Service;
+import com.egovernancesystem.entities.ServiceRequest;
 
 public class EgovernanceSystem 
 {
@@ -10,7 +12,7 @@ public class EgovernanceSystem
 		Scanner sc = new Scanner(System.in);
 		System.out.println("---------------Welcome to e-governance system services---------------");
 		System.out.println("Select your role:");
-		System.out.println("1. Citizen 2. Department Representative 3. Employee");
+		System.out.println("1. Citizen 2. Department Representative 3. Government Employee and Service Manager");
 		int role = sc.nextInt();
 		try {
 			switch (role) {
@@ -21,7 +23,7 @@ public class EgovernanceSystem
 				handleDepartmentOperations(sc);
 				break;
 			case 3:
-				// Add Employee functionality if needed
+				handleEmployeeAndServiceManagementOperations(sc); // Added third role handling here
 				break;
 			default:
 				System.out.println("Sorry, You have chosen an Invalid option.");
@@ -33,6 +35,7 @@ public class EgovernanceSystem
 			sc.close();
 		}
 	}
+
 	public static void handleCitizenOperations(Scanner sc)
 	{
 		boolean exit = false;
@@ -473,13 +476,14 @@ public class EgovernanceSystem
 	}
 	// Menu for Department Representative
 	private static void handleDepartmentOperations(Scanner sc) {
-		while (true) {
+		boolean exit = false;
+		while (!exit) {
 			System.out.println("\n------------------ Department Representative Menu ------------------");
 			System.out.println("1. Manage Reports");
 			System.out.println("2. Manage Employees");
 			System.out.println("3. Manage Services");
 			System.out.println("4. Manage Appointments");
-			System.out.println("5. Exit");
+			System.out.println("0. Exit to main menu2");
 			System.out.print("Select an option: ");
 			int option = sc.nextInt();
 
@@ -496,9 +500,10 @@ public class EgovernanceSystem
 			case 4:
 				manageAppointments(sc);
 				break;
-			case 5:
-				System.out.println("Exiting Department Representative menu.");
-				return; // Exit from the department menu
+			case 0:
+				System.out.println("Exiting Department Menu...");
+				exit = true; // Set exit flag to true to exit from the loop
+				break;
 			default:
 				System.out.println("Invalid option. Please try again.");
 			}
@@ -514,6 +519,7 @@ public class EgovernanceSystem
 				System.out.println("2. View Reports");
 				System.out.println("3. Update a Report");
 				System.out.println("4. Delete a Report");
+				System.out.println("0.Exit");
 				System.out.print("Select an option: ");
 				int option = sc.nextInt();
 				ReportController reportcontroller=new ReportController();
@@ -530,6 +536,9 @@ public class EgovernanceSystem
 				case 4:
 					reportcontroller.deleteReportFromInput();
 					break;
+				case 0:
+					System.out.println("Exiting to Department menu...");
+					return;
 				default:
 					System.out.println("Invalid option. Please try again.");
 				}
@@ -544,29 +553,33 @@ public class EgovernanceSystem
 	// Function to handle Employee Management
 	private static void manageEmployees(Scanner sc) {
 		try {
-			System.out.println("\n------------------ Employee Management ------------------");
-			System.out.println("1. Add Employee");
-			System.out.println("2. View Employees");
-			System.out.println("3. Update Employee Details");
-			System.out.println("4. Remove Employee");
-			System.out.print("Select an option: ");
-			int option = sc.nextInt();
-
-			switch (option) {
-			case 1:
-				// Logic to add a new employee
-				break;
-			case 2:
-				// Logic to view employees
-				break;
-			case 3:
-				// Logic to update employee details
-				break;
-			case 4:
-				// Logic to remove an employee
-				break;
-			default:
-				System.out.println("Invalid option. Please try again.");
+			while(true)
+			{
+				System.out.println("\n------------------ Employee Management ------------------");
+				System.out.println("1. Add Employee");
+				System.out.println("2. View Employees");
+				System.out.println("3. Update Employee Details");
+				System.out.println("4. Remove Employee");
+				System.out.println("0.Exit");
+				System.out.print("Select an option: ");
+				int option = sc.nextInt();
+				EmployeeController employeecontroller=new EmployeeController();
+				switch (option) {
+				case 1:
+					employeecontroller.addEmployeeFromInput();
+					break;
+				case 2:
+					employeecontroller.getAllEmployees();
+					break;
+				case 3:
+					employeecontroller.updateEmployeeFromInput();
+					break;
+				case 0:
+					System.out.println("Exiting to Department menu...");
+					return;
+				default:
+					System.out.println("Invalid option. Please try again.");
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("Error while managing employees: " + e.getMessage());
@@ -577,68 +590,206 @@ public class EgovernanceSystem
 	// Function to handle Service Management
 	private static void manageServices(Scanner sc) {
 		try {
-			System.out.println("\n------------------ Service Management ------------------");
-			System.out.println("1. Add Service");
-			System.out.println("2. View Services");
-			System.out.println("3. Update Service");
-			System.out.println("4. Delete Service");
-			System.out.print("Select an option: ");
-			int option = sc.nextInt();
-
-			switch (option) {
-			case 1:
-				// Logic to add a new service
-				break;
-			case 2:
-				// Logic to view services
-				break;
-			case 3:
-				// Logic to update a service
-				break;
-			case 4:
-				// Logic to delete a service
-				break;
-			default:
-				System.out.println("Invalid option. Please try again.");
-			}
-		} catch (Exception e) {
+			while(true) {
+				System.out.println("\n------------------ Service Management ------------------");
+				System.out.println("1. Add Service");
+				System.out.println("2. View Services");
+				System.out.println("3. Update Service");
+				System.out.println("4. Delete Service");
+				System.out.println("0.Exit");
+				System.out.print("Select an option: ");
+				int option = sc.nextInt();
+				ServiceController servicecontroller=new ServiceController();
+				Service service=new Service();
+				switch (option) {
+				case 1:
+					servicecontroller.addServiceFromInput();
+					break;
+				case 2:
+					servicecontroller.getAllServices();
+					break;
+				case 3:
+					servicecontroller.updateService();
+					break;
+				case 4:
+					servicecontroller.deleteServiceFromInput();
+					break;
+				case 0:
+					System.out.println("Exiting to Department menu...");
+					return;
+				default:
+					System.out.println("Invalid option. Please try again.");
+				}
+			} 
+		}
+		catch (Exception e) {
 			System.out.println("Error while managing services: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
+
 	// Function to handle Appointment Management
 	private static void manageAppointments(Scanner sc) {
 		try {
-			System.out.println("\n------------------ Appointment Management ------------------");
-			System.out.println("1. Schedule an Appointment");
-			System.out.println("2. View Appointments");
-			System.out.println("3. Update Appointment");
-			System.out.println("4. Cancel Appointment");
+			while(true) {
+				System.out.println("\n------------------ Appointment Management ------------------");
+				System.out.println("1. Schedule an Appointment");
+				System.out.println("2. View Appointments");
+				System.out.println("3. Update Appointment");
+				System.out.println("4. Cancel Appointment");
+				System.out.println("0.Exit");
+				System.out.print("Select an option: ");
+				int option = sc.nextInt();
+				AppointmentController appointmentcontroller=new AppointmentController();
+				switch (option) {
+				case 1:
+					appointmentcontroller.scheduleAppointment();
+					break;
+				case 2:
+					appointmentcontroller.getAllAppointments();
+					break;
+				case 3:
+					appointmentcontroller.updateAppointment();
+					break;
+				case 4:
+					appointmentcontroller.cancelAppointment();
+					break;
+				case 0:
+					System.out.println("Exiting to Department menu...");
+					return;
+				default:
+					System.out.println("Invalid option. Please try again.");
+				}
+			}
+		} 
+		catch (Exception e) {
+			System.out.println("Error while managing appointments: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	// Menu for Department Representative
+	private static void handleEmployeeAndServiceManagementOperations(Scanner sc) {
+		boolean exit = false;
+		while (!exit) {
+			System.out.println("\n------------------ Employee and Service Management Menu ------------------");
+			System.out.println("1. Manage Employee Approvals");
+			System.out.println("2. Manage Service Requests");
+			System.out.println("3. Manage Services");
+			System.out.println("0. Exit to main menu");
 			System.out.print("Select an option: ");
 			int option = sc.nextInt();
 
 			switch (option) {
 			case 1:
-				// Logic to schedule an appointment
+				// For managing the relationship between employees and approvals
+				manageEmployeeApprovals(sc); 
 				break;
 			case 2:
-				// Logic to view appointments
+				// For managing the relationship between service requests and approvals
+				manageServiceRequests(sc); 
 				break;
 			case 3:
-				// Logic to update appointment details
+				 // For managing services and their related service requests
+				manageServices1(sc);
 				break;
-			case 4:
-				// Logic to cancel an appointment
+			case 0:
+				System.out.println("Exiting Employee and Service Management Menu...");
+				exit = true; // Set exit flag to true to exit from the loop
 				break;
 			default:
 				System.out.println("Invalid option. Please try again.");
 			}
-		} catch (Exception e) {
-			System.out.println("Error while managing appointments: " + e.getMessage());
+		}
+	}
+	public static void manageEmployeeApprovals(Scanner sc) {
+		
+	}
+	public static void manageServiceRequests(Scanner sc) {
+		try {
+			while(true) {
+				System.out.println("\n------------------ Service Request Management ------------------");
+				System.out.println("1. Submit a new service request");
+				System.out.println("2.View details of a service request");
+				System.out.println("3. Update details of Service request");
+				System.out.println("4. Cancel Service request");
+				System.out.println("0.Exit");
+				System.out.print("Select an option: ");
+				int option = sc.nextInt();
+				RequestController requestcontroller=new RequestController();
+				ServiceRequest servicerequest=new ServiceRequest();
+				switch (option) {
+				case 1:
+					requestcontroller.addServiceRequestFromInput();
+					break;
+				case 2:
+					requestcontroller.getServiceRequestById();
+					break;
+				case 3:
+					requestcontroller.updateRequest();
+					break;
+				case 4:
+					requestcontroller.deleteRequestFromInput();
+					break;
+				case 0:
+					System.out.println("Exiting to Department menu...");
+					return;
+				default:
+					System.out.println("Invalid option. Please try again.");
+				}
+			} 
+		}
+		catch (Exception e) {
+			System.out.println("Error while managing services: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
+
+	// Function to handle Service Management
+		private static void manageServices1(Scanner sc) {
+			try {
+				while(true) {
+					System.out.println("\n------------------ Service Management ------------------");
+					System.out.println("1. Add Service");
+					System.out.println("2.View details of a service");
+					System.out.println("3. View All Services");
+					System.out.println("4. Update Service");
+					System.out.println("5. Delete Service");
+					System.out.println("0.Exit");
+					System.out.print("Select an option: ");
+					int option = sc.nextInt();
+					ServiceController servicecontroller=new ServiceController();
+					Service service=new Service();
+					switch (option) {
+					case 1:
+						servicecontroller.addServiceFromInput();
+						break;
+					case 2:
+						servicecontroller.getServiceById();
+						break;
+					case 3:
+						servicecontroller.getAllServices();
+						break;
+					case 4:
+						servicecontroller.updateService();
+						break;
+					case 5:
+						servicecontroller.deleteServiceFromInput();
+						break;
+					case 0:
+						System.out.println("Exiting to Department menu...");
+						return;
+					default:
+						System.out.println("Invalid option. Please try again.");
+					}
+				} 
+			}
+			catch (Exception e) {
+				System.out.println("Error while managing services: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
 }
 
 
