@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import com.egovernancesystem.entities.Service;
+import com.egovernancesystem.entities.ServiceRequest;
 import com.egovernancesystem.utils.HibernateUtils;
 
 public class ServiceDAO {
@@ -27,65 +28,48 @@ public class ServiceDAO {
 		return row;
 	}
 
-	public int updateService(Service service) 
-	{
+	/*---- Method to update an appointment in the database -----*/
+	public int updateService(Service service) {
 		int row = 0;
 		Session session = HibernateUtils.getsFactory().openSession();
-		Transaction transaction = null;
+		Transaction transaction = session.beginTransaction();
+		try {
+			// Create an HQL query to update specific fields of the Appointment entity
+			String hql = "UPDATE Service a SET a.serviceName = :serviceName, a.description = :description, a.department = :departmetn WHERE a.serviceId = :serviceId";
 
-		try 
-		{
-			transaction = session.beginTransaction();  // Start the transaction
+			Query query = session.createQuery(hql);
+			query.setParameter("name", service.getServiceName()); 
+			query.setParameter("description", service.getDescription()); 
+			query.setParameter("department ", service.getDepartment());  
+			query.setParameter("serviceId", service.getServiceId()); 
 
-			// Fetch the existing service entity to update it
-			Service existingService = session.get(Service.class, service.getServiceId());
-
-			if (existingService != null)
-			{
-				// Update the fields of the existing service entity
-				existingService.setServiceName(service.getServiceName());
-				existingService.setDescription(service.getDescription());
-				existingService.setDepartment(service.getDepartment());
-
-				// Update the service in the session
-				session.update(existingService); 
-
-				// Commit the transaction to persist the changes
-				transaction.commit();  
-				row = 1;  // Success
-			} 
-			else 
-			{
-				row = 0;  // Service not found
-			}
+			row = query.executeUpdate();  // Execute the update query
+			transaction.commit();         // Commit the transaction
 		} 
-		catch (Exception e)
+		catch (Exception e) 
 		{
-			if (transaction != null)
-			{
-				transaction.rollback();  // Rollback in case of an error
-			}
 			e.printStackTrace();
-			row = 0;  // Failure
-		} finally {
-			session.close();  // Ensure session is closed
+			row = 0;                      // In case of failure
+			transaction.rollback();       // Rollback transaction in case of error
 		}
-		return row;  // Return result of the update operation
+		finally 
+		{
+			session.close();              // Ensure session is closed
+		}
+		return row;
 	}
 
-
-
 	/*---- Method to delete a service by serviceId -----*/
-	public int deleteService(String serviceId) {
+	public int deleteRequest(String requestId) {
 		int result = 0;
 		Session session = HibernateUtils.getsFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			// Fetch the service object first to ensure it exists
-			Service service = session.get(Service.class, serviceId);  // Use the serviceId (String)
+			ServiceRequest servicerequest = session.get(ServiceRequest.class, requestId);  // Use the serviceId (String)
 
-			if (service != null) {
-				session.delete(service);  // Delete the Service object
+			if (servicerequest != null) {
+				session.delete(servicerequest);  // Delete the Service object
 				transaction.commit();     // Commit the transaction
 				result = 1;               // Successful deletion
 			} else {
