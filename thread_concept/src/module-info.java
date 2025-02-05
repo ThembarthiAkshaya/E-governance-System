@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * 
- */
-module thread_concept {
-}
